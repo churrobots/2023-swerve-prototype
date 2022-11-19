@@ -4,22 +4,16 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.Pigeon2;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.AnalogAccelerometer;
-import edu.wpi.first.wpilibj.AnalogEncoder;
-import edu.wpi.first.wpilibj.Encoder;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.helpers.SubsystemInspector;
-
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.helpers.SubsystemInspector;
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
@@ -29,7 +23,8 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kFrontLeftTurningMotorPort,
           DriveConstants.kFrontLeftTurningEncoderPortsjr,
           DriveConstants.kFrontLeftDriveEncoderReversed,
-          DriveConstants.kFrontLeftTurningEncoderReversed);
+          DriveConstants.kFrontLeftTurningEncoderReversed,
+          -0.350649);
 
   private final SwerveModule m_rearLeft =
       new SwerveModule(
@@ -37,7 +32,8 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRearLeftTurningMotorPort,
           DriveConstants.kRearLeftTurningEncoderPortsjr,
           DriveConstants.kRearLeftDriveEncoderReversed,
-          DriveConstants.kRearLeftTurningEncoderReversed);
+          DriveConstants.kRearLeftTurningEncoderReversed,
+          -0.308929);
 
   private final SwerveModule m_frontRight =
       new SwerveModule(
@@ -45,7 +41,8 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kFrontRightTurningMotorPort,
           DriveConstants.kFrontRightTurningEncoderPortsjr,
           DriveConstants.kFrontRightDriveEncoderReversed,
-          DriveConstants.kFrontRightTurningEncoderReversed);
+          DriveConstants.kFrontRightTurningEncoderReversed,
+          -0.396605);
 
   private final SwerveModule m_rearRight =
       new SwerveModule(
@@ -53,7 +50,8 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRearRightTurningMotorPort,
           DriveConstants.kRearRightTurningEncoderPortsjr,
           DriveConstants.kRearRightDriveEncoderReversed,
-          DriveConstants.kRearRightTurningEncoderReversed);
+          DriveConstants.kRearRightTurningEncoderReversed,
+          -0.232059);
 
 
   // creates the inspector
@@ -84,10 +82,10 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearLeft.getState(),
         m_rearRight.getState()
     );
-    inspector.set("EncoderLeftFrontX",m_frontLeft.getState().angle.getRadians());
-    inspector.set("EncoderLeftBackX", m_rearLeft.getState().angle.getRadians());
-    inspector.set("EncoderRightFrontX",m_frontRight.getState().angle.getRadians());
-    inspector.set("EncoderRightBackX", m_rearRight.getState().angle.getRadians());;
+    inspector.set("EncoderLeftFrontX",m_frontLeft.getRawTurningEncoderValue());
+    inspector.set("EncoderLeftBackX", m_rearLeft.getRawTurningEncoderValue());
+    inspector.set("EncoderRightFrontX",m_frontRight.getRawTurningEncoderValue());
+    inspector.set("EncoderRightBackX", m_rearRight.getRawTurningEncoderValue());;
 
   }
     

@@ -14,7 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -24,8 +24,7 @@ public class SwerveModule {
   private final WPI_VictorSPX m_turningMotor;
 
 
-  private final AnalogEncoder m_turningEncoder;
-
+  private final AnalogPotentiometer m_turningEncoder;
 
 
   private final PIDController m_drivePIDController =
@@ -56,7 +55,8 @@ public class SwerveModule {
       int turningMotorChannel,
       int turningEncoderChannels,
       boolean driveEncoderReversed,
-      boolean turningEncoderReversed) {
+      boolean turningEncoderReversed,
+      double turningOffset) {
     
     
     
@@ -66,8 +66,9 @@ public class SwerveModule {
     m_turningMotor = new WPI_VictorSPX(turningMotorChannel);
 
 
-    m_turningEncoder = new AnalogEncoder(turningEncoderChannels);
-    m_turningEncoder.reset();
+    m_turningEncoder = new AnalogPotentiometer(turningEncoderChannels, 1, turningOffset);
+
+
 
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
@@ -139,11 +140,15 @@ public class SwerveModule {
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
     driveMotor.setSelectedSensorPosition(0);
-    m_turningEncoder.reset();
   }
 
   public void setTestOutputs(double driveOutput, double turnOutput) {
     driveMotor.set(driveOutput);
     m_turningMotor.set(turnOutput);
   }
+
+  public double getRawTurningEncoderValue() {
+    return m_turningEncoder.get();
+  }
+
 }
